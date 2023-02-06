@@ -3,6 +3,10 @@ import threading
 import tkinter as tk
 import tkinter.scrolledtext
 from tkinter import simpledialog
+import os
+import sys
+import time
+import random
 
 HOST = "127.0.0.1"
 PORT = 9090
