@@ -13,7 +13,7 @@ class Client:
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect((host, port))
 
-        msg = tkinter.TK()
+        msg = tkinter.Tk()
         msg.withdraw()
 
         self.nickname = simpledialog.askstring("Nickname", "Please choose a nickname", parent=msg)
@@ -57,11 +57,35 @@ class Client:
 
 
     def write(self):
-        pass
+        message = f"{self.nickname}: {self.input_are.get('1.0', 'end')}"
+        self.sock.send(message.encode('utf-8'))
+        self.input_area.delete('1.0', 'end')
+
+    def stop(self):
+        self.runnig = False
+        self.win.destroy()
+        self.sock.close()
+        exit(0)
 
     def receive(self):
-        pass
-    
-    def stop(self):
-        pass
+        while self.runnning:
+            try:
+                message = self.sock.recv(1024).decode('utf-8')
+                if message == 'PERRY':
+                    self.sock.send(self.nickname.encode('utf-8'))
+                else:
+                    if self.gui_done:
+                        self.text_area.config(state='normal')
+                        self.text_area.insert('end', message)
+                        self.text_area.yview('end')
+                        self.text_area.config(state='disabled')
+
+            except ConnectionAbortedError:
+                break
+            except:
+                print("Error")
+                self.sock.close()
+                break
+
+client = Client(HOST, PORT)
     
