@@ -29,14 +29,7 @@ def handle_client(client):
             nickname = nicknames[index]
             nicknames.remove(nickname)
             break
-""""
-def receive(client):
-    while True:
-        data = client.recv(1024)
-        if not data:
-            break
-        broadcast(data)
-"""
+
 def receive():
     while True:
         client, address = server.accept()
